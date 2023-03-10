@@ -14,22 +14,6 @@ openai.api_key = openai_api_key
 def process_line(line):
     return " ".join(line.strip().split()[1:])
 
-def split_string(string):
-    result = []
-    in_quotes = False
-    current_word = ''
-    for char in string:
-        if char == '"':
-            in_quotes = not in_quotes
-        elif char == '.' and not in_quotes:
-            result.append(current_word)
-            current_word = ''
-        else:
-            current_word += char
-    result.append(current_word)
-    return result
-
-
 # Variables
 name = "1"
 path = "./prepared/" + name + ".txt"
@@ -41,7 +25,7 @@ open("./output/" + name + ".txt", "w")
 for line in lines:
 
     line = process_line(line)
-    sentences = split_string(line)
+    sentences = line.split('.')
 
     final_line = ''
 
@@ -58,12 +42,11 @@ for line in lines:
         print('Sentence: ' + sentence)
 
         if (sentence == sentence[0]):
-            prompt = "Rewrite the following sentence into modern, fluid, easily readable English." 
+            prompt = "Rewrite the following passage into modern, fluid, easily readable English." 
         else:
-            prompt = "Continue rewriting the passage. Rewrite the following sentence into modern, fluid, easily readable English."
+            prompt = "Continue rewriting the passage. Rewrite the following passage into modern, fluid, easily readable English."
         if (sentence.__contains__('"')):
-            print("TRUE")
-            prompt += " Include direct speech in quotation marks if necessary."
+            prompt += " Include direct speech in quotation marks."
         prompt += "\n\nOld sentence:\n\n" + sentence + ".\n\nNew sentence(s):"
         messages.append({"role": "user", "content": prompt})
 
