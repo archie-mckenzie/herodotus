@@ -1,0 +1,5 @@
+.env
+output/jsons/greek_words.json
+output/jsons/sentences.json
+output/jsons/chapters.json
+output/jsons/*
